@@ -1,0 +1,16 @@
+$FromAddress = "dsesko@netarx.com"
+$ToAddress = "dsesko@netarx.com"
+$MessageSubject = "Exchange Mailbox Database Copy Status"
+$MessageBody = ""
+$SMTPsmartHost = "10.10.50.101"
+$report = @()
+
+$a = "<style>"
+$a = $a + "TABLE{border-width: 1px;border-style: solid;border-color: black;border-collapse: collapse;}"
+$a = $a + "TH{border-width: 1px;padding: 1px;border-style: solid;border-color: black;}"
+$a = $a + "TD{border-width: 1px;padding: 5px;border-style: solid;border-color: black;}"
+$a = $a + "</style>"
+[String]$Report += Get-MailboxDatabase | Get-MailboxDatabaseCopyStatus |select-object MailboxServer,DatabaseName,Status,CopyQueuelength,ReplayQueueLength,Contentindexstate | ConvertTo-Html -head $a
+$messagebody =$report 
+send-MailMessage -Body $messagebody -BodyAsHtml -SmtpServer $SMTPSmartHost -Subject $MessageSubject -from $fromAddress -to $toAddress 
+

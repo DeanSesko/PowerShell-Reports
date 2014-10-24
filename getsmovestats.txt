@@ -1,0 +1,19 @@
+Get-MoveRequest |Get-MoveRequestStatistics |FT displayname,Status,TotalMailboxsize,@{label="% Complete";expression={$_.PercentComplete}},@{label="Move Time";expression={$_.TotalInProgressDuration}},StartTimeStamp,@{label="Completion Time";expression={$_.CompletionTimestamp}}
+
+
+
+
+
+
+
+
+
+
+$TBF= "<style>"
+$TBF= $TBF + "BODY{background-color:White;}"
+$TBF= $TBF + "TABLE{border-width: 1px;border-style: solid;border-color: black;width:60;border-collapse: collapse;text-align:Left}"
+$TBF= $TBF + "TH{border-width: 1px;padding: 0px;border-style: solid;border-color: black;}"
+$TBF= $TBF + "TD{border-width: 1px;padding: 0px;border-style: solid;border-color: black;}"
+$TBF= $TBF + "</style>"
+
+get-mailbox dsesko -resultsize unlimited|Get-MailboxStatistics |Select DisplayName,StorageLimitStatus,ItemCount,TotalItemSize| ConvertTo-Html -head $TBF > c:\temp\mailbox.htm

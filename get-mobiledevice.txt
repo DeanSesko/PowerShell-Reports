@@ -1,0 +1,1 @@
+Get-Mailbox -ResultSize:Unlimited | ForEach {Get-ActiveSyncDeviceStatistics -Mailbox:$_.Identity} | Where {$_.LastSuccessSync -gt '2/15/2007'} | Sort-Object -Property DeviceType,Identity | Select-Object @{name="EmailAddress";expression={$_.Identity.ToString().Split("\")[0]}},DeviceType | Export-Csv -Path:"C:\MobileDevices.csv"
